@@ -4,6 +4,13 @@ function add_reskinning_splitter_admin_page() {
     add_menu_page("Re-skinning Url splitter", "Re-skinning SP", "administrator", "splitteradminpage", "reskinning_splitter_admin_page", $icon_url, 3);
 }
 add_action('admin_menu', 'add_reskinning_splitter_admin_page' );
+function display_enable_reskinning_cloaker(){ ?>
+	<input type="radio" name="enable_reskinning_cloaker" value="1" <?php checked(1, get_option('enable_reskinning_cloaker'), true); ?>> <b style="color:green;">Enable </b><span style="padding-right:30px;"></span>
+	<input type="radio" name="enable_reskinning_cloaker" value="0" <?php checked(0, get_option('enable_reskinning_cloaker'), true); checked(null, get_option('enable_reskinning_cloaker'), true);?>> <b style="color:red;">Disable</b>
+	<p class="description"><?php _e('Enable / Disable Bot Cloaking', 'reskigif'); ?></p>
+	<br class="clear">
+<?php } 
+
 function display_reskinning_url_one(){ ?>
     <input type="text" name="reskinning_url_one" style="min-width: 500px;" placeholder="The First URL" id="reskinning_url_one" value="<?php echo get_option('reskinning_url_one'); ?>" />
     <input type="text" name="reskinning_url_one_percent" style="min-width: 60px;" placeholder="Percentage" id="reskinning_url_one_percent" value="<?php echo get_option('reskinning_url_one_percent'); ?>" />
@@ -43,6 +50,8 @@ function display_reskinning_splitter_button_color(){ ?>
 <?php }
 function display_splitter_panel_fieldset(){
     add_settings_section("reskinning_splitter_section", null, null, "reskinning_splitter_options");
+    add_settings_field("enable_reskinning_cloaker", "Button Text", "display_enable_reskinning_cloaker", "reskinning_splitter_options", "reskinning_splitter_section");  
+    register_setting("reskinning_splitter_section", "enable_reskinning_cloaker");	
     add_settings_field("reskinning_splitter_button_text", "Button Text", "display_reskinning_splitter_button_text", "reskinning_splitter_options", "reskinning_splitter_section");  
     register_setting("reskinning_splitter_section", "reskinning_splitter_button_text");	
     add_settings_field("reskinning_splitter_button_description", "Button Desctiption", "display_reskinning_splitter_button_description", "reskinning_splitter_options", "reskinning_splitter_section");  
