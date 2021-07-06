@@ -1,5 +1,4 @@
-<?php 
-function reskinning_splitter_admin_page(){ ?>
+<?php function reskinning_splitter_admin_page(){ ?>
 	<div class="wrap">
 		<div id="poststuff">
 			<div id="post-body" class="metabox-holder columns-2">
@@ -58,8 +57,70 @@ function detectBot_sp($USER_AGENT) {
 	}
 	return false;
 }
-function reskinning_splitter() {
-	if(detectBot_sp($_SERVER['HTTP_USER_AGENT'])) {} else {
+$enable_reskinning_cloaker = get_option('enable_reskinning_cloaker');
+if ($enable_reskinning_cloaker == 1){
+	function reskinning_splitter() {
+		if(detectBot_sp($_SERVER['HTTP_USER_AGENT'])) {} else {
+			$linkone = get_option('reskinning_url_one');
+			if (empty($linkone)) { $linkone = "#"; }else{ $linkone = get_option('reskinning_url_one'); }
+			$linkonepercent = get_option('reskinning_url_one_percent');
+			if (empty($linkonepercent)) { $linkonepercent = "0"; }else{ $linkonepercent = get_option('reskinning_url_one_percent'); }
+			$linktwo = get_option('reskinning_url_two');
+			if (empty($linktwo)) { $linktwo = "#"; }else{ $linktwo = get_option('reskinning_url_two'); }
+			$linktwopercent = get_option('reskinning_url_two_percent');
+			$linkthree = get_option('reskinning_url_three');
+			if (empty($linkthree)) { $linkthree = "#"; }else{ $linkthree = get_option('reskinning_url_three'); }
+			$linkthreepercent = get_option('reskinning_url_three_percent');
+			if (empty($linkthreepercent)) { $linkthreepercent = "0"; }else{ $linkthreepercent = get_option('reskinning_url_three_percent'); }
+			$linkfour = get_option('reskinning_url_four');
+			if (empty($linkfour)) { $linkfour = "#"; }else{ $linkfour = get_option('reskinning_url_four'); }
+			$linkfourpercent = get_option('reskinning_url_four_percent');
+			if (empty($linkfourpercent)) { $linkfourpercent = "0"; }else{ $linkfourpercent = get_option('reskinning_url_four_percent'); }
+			$link[0] = array('link' => $linkone, 'percent' => $linkonepercent);
+			$link[1] = array('link' => $linktwo, 'percent' => $linktwopercent);
+			$link[2] = array('link' => $linkthree, 'percent' => $linkthreepercent);
+			$link[3] = array('link' => $linkfour, 'percent' => $linkfourpercent);
+			$percent_arr = array();
+			foreach($link as $k => $_l) {
+				$percent_arr = array_merge($percent_arr, array_fill(0, $_l['percent'], $k));
+			}
+			$random_key = $percent_arr[mt_rand(0,count($percent_arr)-1)];
+			$redirectlink = $link[$random_key]['link'];
+			$btn_splitter_bg_color = get_option('reskinning_splitter_button_color');
+			return '
+			<style>
+				.reskinning_splitter_btn { text-align:center; }
+				.reskinning_splitter_btn a { background-color: #'.$btn_splitter_bg_color.'; border: none; border-radius:4px; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 1em;}
+			</style>
+			<div class="reskinning_splitter_btn">
+				<p>'.get_option('reskinning_splitter_button_description').'</p>
+				<a href="'.$redirectlink.'" target="_blank">'.get_option('reskinning_splitter_button_text').'123</a>
+			</div>';
+		}
+	}add_shortcode('reskinning_splitter', 'reskinning_splitter');
+	class reskinning_splitter_widget extends WP_Widget {
+		public function __construct() {
+			$options = array(
+				'classname' => 'reskinning_splitter_cost_widget',
+				'description' => 'Re-Skinning Url Splitter Widget',
+			);
+			parent::__construct(
+				'reskinning_splitter_cost_widget', 'Re-Skinning URL Splitter', $options
+			);
+		}
+		public function widget( $args, $instance ) {
+			echo $args['before_widget'];
+			if(detectBot_sp($_SERVER['HTTP_USER_AGENT'])) {} else {
+			echo do_shortcode('[reskinning_splitter]');
+			}
+			echo $args['after_widget'];
+		}
+	}
+	function reskinning_splitter_widget_add() {
+		register_widget( 'reskinning_splitter_widget' );
+	}add_action( 'widgets_init', 'reskinning_splitter_widget_add' );
+}else{
+	function reskinning_splitter() {
 		$linkone = get_option('reskinning_url_one');
 		if (empty($linkone)) { $linkone = "#"; }else{ $linkone = get_option('reskinning_url_one'); }
 		$linkonepercent = get_option('reskinning_url_one_percent');
@@ -95,28 +156,24 @@ function reskinning_splitter() {
 			<p>'.get_option('reskinning_splitter_button_description').'</p>
 			<a href="'.$redirectlink.'" target="_blank">'.get_option('reskinning_splitter_button_text').'</a>
 		</div>';
-	}
-}
-add_shortcode('reskinning_splitter', 'reskinning_splitter');
-class reskinning_splitter_widget extends WP_Widget {
-    public function __construct() {
-        $options = array(
-            'classname' => 'reskinning_splitter_cost_widget',
-            'description' => 'Re-Skinning Url Splitter Widget',
-        );
-        parent::__construct(
-            'reskinning_splitter_cost_widget', 'Re-Skinning URL Splitter', $options
-        );
-    }
-    public function widget( $args, $instance ) {
-        echo $args['before_widget'];
-		if(detectBot_sp($_SERVER['HTTP_USER_AGENT'])) {} else {
-        echo do_shortcode('[reskinning_splitter]');
+	}add_shortcode('reskinning_splitter', 'reskinning_splitter');
+	class reskinning_splitter_widget extends WP_Widget {
+		public function __construct() {
+			$options = array(
+				'classname' => 'reskinning_splitter_cost_widget',
+				'description' => 'Re-Skinning Url Splitter Widget',
+			);
+			parent::__construct(
+				'reskinning_splitter_cost_widget', 'Re-Skinning URL Splitter', $options
+			);
 		}
-        echo $args['after_widget'];
-    }
+		public function widget( $args, $instance ) {
+			echo $args['before_widget'];
+				echo do_shortcode('[reskinning_splitter]');
+			echo $args['after_widget'];
+		}
+	}
+	function reskinning_splitter_widget_add() {
+		register_widget( 'reskinning_splitter_widget' );
+	}add_action( 'widgets_init', 'reskinning_splitter_widget_add' );
 }
-function reskinning_splitter_widget_add() {
-    register_widget( 'reskinning_splitter_widget' );
-}
-add_action( 'widgets_init', 'reskinning_splitter_widget_add' );
