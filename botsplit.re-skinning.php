@@ -94,7 +94,7 @@ if ($enable_reskinning_cloaker == 1){
 			</style>
 			<div class="reskinning_splitter_btn">
 				<p>'.get_option('reskinning_splitter_button_description').'</p>
-				<a href="'.$redirectlink.'" target="_blank">'.get_option('reskinning_splitter_button_text').'123</a>
+				<a href="'.$redirectlink.'" target="_blank">'.get_option('reskinning_splitter_button_text').'</a>
 			</div>';
 		}
 	}add_shortcode('reskinning_splitter', 'reskinning_splitter');
