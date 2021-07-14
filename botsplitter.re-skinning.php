@@ -50,7 +50,7 @@ function display_reskinning_splitter_button_color(){ ?>
 <?php }
 function display_splitter_panel_fieldset(){
     add_settings_section("reskinning_splitter_section", null, null, "reskinning_splitter_options");
-    add_settings_field("enable_reskinning_cloaker", "Button Text", "display_enable_reskinning_cloaker", "reskinning_splitter_options", "reskinning_splitter_section");  
+    add_settings_field("enable_reskinning_cloaker", "Cloaking", "display_enable_reskinning_cloaker", "reskinning_splitter_options", "reskinning_splitter_section");  
     register_setting("reskinning_splitter_section", "enable_reskinning_cloaker");	
     add_settings_field("reskinning_splitter_button_text", "Button Text", "display_reskinning_splitter_button_text", "reskinning_splitter_options", "reskinning_splitter_section");  
     register_setting("reskinning_splitter_section", "reskinning_splitter_button_text");	
